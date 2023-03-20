@@ -1,0 +1,244 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "APIs For Cinema",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/movie": {
+            "post": {
+                "tags": [
+                    "Movie"
+                ],
+                "summary": "Movie entrance",
+                "description": "Posting movie in the cinema database",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Movie title",
+                        "required": true
+                    },
+                    {
+                        "name": "duration_min",
+                        "in": "query",
+                        "description": "Movie duration expressed in minutes",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/mostWatched": {
+            "get": {
+                "tags": [
+                    "Most-watched movie"
+                ],
+                "summary": "Retrieve the most watched movie on a specific day",
+                "description": "Using GET HTTP method to retrieve the most watched movie on a specific day in the cinema database",
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "The date for which to retrieve the most watched movie",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The most watched movie on the specified date",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "no_of_projections": {
+                                                "description": "The number of projections for the most watched movie on the specified date",
+                                                "type": "integer"
+                                            },
+                                            "title": {
+                                                "description": "The title of the most watched movie on the specified date",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/room": {
+            "post": {
+                "tags": [
+                    "Room"
+                ],
+                "summary": "Room data entrance",
+                "description": "Posting room in the cinema database",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Room name",
+                        "required": true
+                    },
+                    {
+                        "name": "seats_no",
+                        "in": "query",
+                        "description": "Seats number of the room",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/spectator": {
+            "get": {
+                "tags": [
+                    "Spectator"
+                ],
+                "summary": "Spectator information",
+                "description": "Using GET HTTP method to present spectators' information from the cinema database",
+                "parameters": [
+                    {
+                        "name": "first_name",
+                        "in": "query",
+                        "description": "Spectator's first name",
+                        "required": true
+                    },
+                    {
+                        "name": "last_name",
+                        "in": "query",
+                        "description": "Spectator's last name",
+                        "required": true
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Spectator's email address",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/occupancyList": {
+            "get": {
+                "tags": [
+                    "Occupancy"
+                ],
+                "summary": "Retrieve a list of occupancy for each projection",
+                "description": "Using GET HTTP method to retrieve a list of occupancy for each projection in the cinema database",
+                "responses": {
+                    "200": {
+                        "description": "List of occupancy for each projection",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "ticket_number": {
+                                                "description": "The number of tickets sold for the projection",
+                                                "type": "integer"
+                                            },
+                                            "seats_no": {
+                                                "description": "The number of seats in the hall for the projection",
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "description": "The name of the hall for the projection",
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "description": "The title of the movie for the projection",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/ticket": {
+            "post": {
+                "tags": [
+                    "Ticket"
+                ],
+                "summary": "Ticket buy",
+                "description": "Posting spectators' ticket information in the cinema database",
+                "parameters": [
+                    {
+                        "name": "spectator_id",
+                        "in": "query",
+                        "description": "Number of the spectator of projection",
+                        "required": true
+                    },
+                    {
+                        "name": "projection.id",
+                        "in": "query",
+                        "description": "Number of projection of the movie ",
+                        "required": true
+                    },
+                    {
+                        "name": "ticket_type",
+                        "in": "query",
+                        "description": "Type of the ticket offered in the cinema (children, retiree, regular)",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
